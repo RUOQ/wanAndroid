@@ -1,11 +1,14 @@
 package com.ruoq.wanAndroid.mvp.ui.adapter
 
+import android.content.Intent
 import android.text.Html
 import android.text.TextUtils
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.util.MultiTypeDelegate
+import com.jess.arms.http.imageloader.glide.ImageConfigImpl
+import com.jess.arms.utils.ArmsUtils
 import com.ruoq.wanAndroid.R
 import com.ruoq.wanAndroid.app.weight.CollectView
 import com.ruoq.wanAndroid.mvp.model.entity.ArticleResponse
@@ -42,7 +45,7 @@ class ArticleAdapter (data: MutableList<ArticleResponse>?) : BaseQuickAdapter<Ar
         }
         //注册多布局
         multiTypeDelegate
-            .registerItemType(Ariticle, R.layout.item_ariticle)
+            .registerItemType(Ariticle, R.layout.item_article)
             .registerItemType(Project, R.layout.item_project)
     }
 
@@ -73,6 +76,7 @@ class ArticleAdapter (data: MutableList<ArticleResponse>?) : BaseQuickAdapter<Ar
                         helper.setGone(R.id.item_home_new, false)
                     }
                 }
+
                 helper.getView<CollectView>(R.id.item_home_collect).setOnCollectViewClickListener(object : CollectView.OnCollectViewClickListener {
                     override fun onClick(v: CollectView) {
                         mOnCollectViewClickListener?.onClick(helper, v, helper.adapterPosition)

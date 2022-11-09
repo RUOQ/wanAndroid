@@ -8,6 +8,6 @@ import java.io.Serializable
  * @Time : 2022/10/31 20:07
  * @Description : 文件描述
  */
-data class NavigationResponse(var articles: MutableList<AriticleResponse>,
+data class NavigationResponse(var articles: MutableList<ArticleResponse>,
                               var cid: Int,
                               var name: String):Serializable
