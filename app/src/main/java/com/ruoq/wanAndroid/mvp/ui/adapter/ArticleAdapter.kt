@@ -12,6 +12,7 @@ import com.jess.arms.utils.ArmsUtils
 import com.ruoq.wanAndroid.R
 import com.ruoq.wanAndroid.app.weight.CollectView
 import com.ruoq.wanAndroid.mvp.model.entity.ArticleResponse
+import com.ruoq.wanAndroid.mvp.ui.activity.share.ShareByIdActivity
 
 /**
  * @ProjectName : wanAndroid

@@ -4,10 +4,32 @@
 
     <application
         android:allowBackup="true"
+        android:name="com.jess.arms.base.BaseApplication"
+
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WanAndroid" />
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".mvp.ui.activity.start.LoginActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".mvp.ui.activity.share.ShareByIdActivity"/>
+        <!-- Arms 配置 -->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667" />
+        <meta-data
+            android:name="com.ruoq.wanAndroid.app.GlobalConfiguration"
+            android:value="ConfigModule" />
+    </application>
 
 </manifest>

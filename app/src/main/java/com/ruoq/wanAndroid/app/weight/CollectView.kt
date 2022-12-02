@@ -8,6 +8,7 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.utils.ArmsUtils
 import com.ruoq.wanAndroid.R
 import com.ruoq.wanAndroid.app.utils.CacheUtil
+import com.ruoq.wanAndroid.mvp.ui.activity.start.LoginActivity
 import per.goweii.reveallayout.RevealLayout
 
 /**
@@ -41,7 +42,7 @@ class CollectView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> if (CacheUtil.isLogin()) {
                 onCollectViewClickListener?.onClick(this)
             } else {
-                ArmsUtils.startActivity(AppManager.getAppManager().currentActivity,LoginActivity::class.java)
+                ArmsUtils.startActivity(AppManager.getAppManager().currentActivity, LoginActivity::class.java)
                 return true
             }
             else -> {

@@ -8,7 +8,7 @@ import java.io.Serializable
  * @Time : 2022/10/31 20:11
  * @Description : 文件描述
  */
-data class ApiPagerResponse<T>(var date:T,
+data class ApiPagerResponse<T>(var datas:T,
                               var curPage:Int,
                                var offset:Int,
                                var over:Boolean,

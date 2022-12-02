@@ -1,4 +1,4 @@
-package me.hegj.wandroid.mvp.presenter.main.tree
+package com.ruoq.wanAndroid.mvp.presenter.main.tree
 
 import android.app.Application
 
@@ -7,17 +7,18 @@ import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
+import com.ruoq.wanAndroid.app.utils.CacheUtil
+import com.ruoq.wanAndroid.mvp.contract.main.tree.NavigationContract
+import com.ruoq.wanAndroid.mvp.model.entity.ApiResponse
+import com.ruoq.wanAndroid.mvp.model.entity.NavigationResponse
 import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import me.hegj.wandroid.app.utils.CacheUtil
+
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
-import me.hegj.wandroid.mvp.contract.main.tree.NavigationContract
-import me.hegj.wandroid.mvp.model.entity.ApiResponse
-import me.hegj.wandroid.mvp.model.entity.NavigationResponse
-import me.hegj.wandroid.mvp.model.entity.SystemResponse
+
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay
 
@@ -58,7 +59,7 @@ constructor(model: NavigationContract.Model, rootView: NavigationContract.View) 
                 .compose(RxLifecycleUtils.bindUntilEvent(mRootView, FragmentEvent.DESTROY))//fragment的绑定方式  使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
                 .subscribe(object : ErrorHandleSubscriber<ApiResponse<MutableList<NavigationResponse>>>(mErrorHandler) {
                     override fun onNext(response: ApiResponse<MutableList<NavigationResponse>>) {
-                        if (response.isSucces()) {
+                        if (response.isSuccess()) {
                             //请求成功 保存数据
                             CacheUtil.setNavigationHistoryData(response.data)
                             //回调数据给activity

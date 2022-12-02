@@ -1,4 +1,4 @@
-package me.hegj.wandroid.mvp.presenter.main.publicNumber
+package com.ruoq.wanAndroid.mvp.presenter.main.publicNumber
 
 import android.app.Application
 import com.google.gson.Gson
@@ -8,15 +8,15 @@ import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
+import com.ruoq.wanAndroid.app.utils.CacheUtil
+import com.ruoq.wanAndroid.mvp.contract.main.publicNumber.PublicContract
+import com.ruoq.wanAndroid.mvp.model.entity.ApiResponse
+import com.ruoq.wanAndroid.mvp.model.entity.ClassifyResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import me.hegj.wandroid.app.utils.CacheUtil
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
-import me.hegj.wandroid.mvp.contract.main.publicNumber.PublicContract
-import me.hegj.wandroid.mvp.model.entity.ApiResponse
-import me.hegj.wandroid.mvp.model.entity.ClassifyResponse
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay
 
@@ -50,7 +50,7 @@ constructor(model: PublicContract.Model, rootView: PublicContract.View) :
     fun getProjectTitles() {
         val datas = CacheUtil.getPublicTitles()
         if(datas.size!=0){
-            mRootView.requestTitileSucc(datas)
+            mRootView.requestTitleSuccess(datas)
         }
         mModel.getTitles()
                 .subscribeOn(Schedulers.io())
@@ -60,20 +60,20 @@ constructor(model: PublicContract.Model, rootView: PublicContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))//activity的绑定方式 使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
                 .subscribe(object : ErrorHandleSubscriber<ApiResponse<MutableList<ClassifyResponse>>>(mErrorHandler) {
                     override fun onNext(response: ApiResponse<MutableList<ClassifyResponse>>) {
-                        if (response.isSucces()) {
+                        if (response.isSuccess()) {
                             CacheUtil.setPublicTitles(Gson().toJson(response.data))
                             if(datas.size==0){
-                                mRootView.requestTitileSucc(response.data)
+                                mRootView.requestTitleSuccess(response.data)
                             }
                         } else {
-                            mRootView.requestTitileSucc(datas)
+                            mRootView.requestTitleSuccess(datas)
                         }
                     }
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         if(datas.size==0){
-                            mRootView.requestTitileSucc(datas)
+                            mRootView.requestTitleSuccess(datas)
                         }
                     }
 

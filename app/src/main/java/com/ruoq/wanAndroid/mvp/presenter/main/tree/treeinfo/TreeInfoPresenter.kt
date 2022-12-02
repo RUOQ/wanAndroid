@@ -1,4 +1,4 @@
-package me.hegj.wandroid.mvp.presenter.main.tree.treeinfo
+package com.ruoq.wanAndroid.mvp.presenter.main.tree.treeinfo
 
 import android.app.Application
 
@@ -7,17 +7,18 @@ import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
+import com.ruoq.wanAndroid.app.utils.HttpUtils
+import com.ruoq.wanAndroid.mvp.contract.main.tree.TreeInfoContract
+import com.ruoq.wanAndroid.mvp.model.entity.ApiPagerResponse
+import com.ruoq.wanAndroid.mvp.model.entity.ApiResponse
+import com.ruoq.wanAndroid.mvp.model.entity.ArticleResponse
 import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import me.hegj.wandroid.app.utils.HttpUtils
+
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
-import me.hegj.wandroid.mvp.contract.main.tree.treeinfo.TreeinfoContract
-import me.hegj.wandroid.mvp.model.entity.ApiPagerResponse
-import me.hegj.wandroid.mvp.model.entity.ApiResponse
-import me.hegj.wandroid.mvp.model.entity.AriticleResponse
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay
 
@@ -35,10 +36,10 @@ import me.jessyan.rxerrorhandler.handler.RetryWithDelay
  * ================================================
  */
 @FragmentScope
-class TreeinfoPresenter
+class TreeInfoPresenter
 @Inject
-constructor(model: TreeinfoContract.Model, rootView: TreeinfoContract.View) :
-        BasePresenter<TreeinfoContract.Model, TreeinfoContract.View>(model, rootView) {
+constructor(model: TreeInfoContract.Model, rootView: TreeInfoContract.View) :
+        BasePresenter<TreeInfoContract.Model, TreeInfoContract.View>(model, rootView) {
     @Inject
     lateinit var mErrorHandler: RxErrorHandler
     @Inject
@@ -52,15 +53,15 @@ constructor(model: TreeinfoContract.Model, rootView: TreeinfoContract.View) :
      * 获取体系下的数据
      */
     fun getTreeInfoDataByType(pageNo: Int, cid: Int) {
-        mModel.getTreeInfoDatas(pageNo, cid)
+        mModel.getTreeInfoDates(pageNo, cid)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(RetryWithDelay(1, 0))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindUntilEvent(mRootView, FragmentEvent.DESTROY))//fragment的绑定方式  使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
-                .subscribe(object : ErrorHandleSubscriber<ApiResponse<ApiPagerResponse<MutableList<AriticleResponse>>>>(mErrorHandler) {
-                    override fun onNext(response: ApiResponse<ApiPagerResponse<MutableList<AriticleResponse>>>) {
-                        if (response.isSucces()) {
+                .subscribe(object : ErrorHandleSubscriber<ApiResponse<ApiPagerResponse<MutableList<ArticleResponse>>>>(mErrorHandler) {
+                    override fun onNext(response: ApiResponse<ApiPagerResponse<MutableList<ArticleResponse>>>) {
+                        if (response.isSuccess()) {
                             mRootView.requestDataSucc(response.data)
                         } else {
                             mRootView.requestDataFaild(response.errorMsg)
@@ -85,7 +86,7 @@ constructor(model: TreeinfoContract.Model, rootView: TreeinfoContract.View) :
                 .compose(RxLifecycleUtils.bindUntilEvent(mRootView,FragmentEvent.DESTROY))//fragment的绑定方式  使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
                 .subscribe(object : ErrorHandleSubscriber<ApiResponse<Any>>(mErrorHandler) {
                     override fun onNext(response: ApiResponse<Any>) {
-                        if (response.isSucces()) {
+                        if (response.isSuccess()) {
                             //收藏成功
                             mRootView.collect(true,position)
                         }else{
@@ -107,7 +108,7 @@ constructor(model: TreeinfoContract.Model, rootView: TreeinfoContract.View) :
      * 取消收藏
      */
     fun uncollect(id:Int,position:Int) {
-        mModel.uncollect(id)
+        mModel.unCollect(id)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(RetryWithDelay(1, 0))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -115,7 +116,7 @@ constructor(model: TreeinfoContract.Model, rootView: TreeinfoContract.View) :
                 .compose(RxLifecycleUtils.bindUntilEvent(mRootView,FragmentEvent.DESTROY))//fragment的绑定方式  使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
                 .subscribe(object : ErrorHandleSubscriber<ApiResponse<Any>>(mErrorHandler) {
                     override fun onNext(response: ApiResponse<Any>) {
-                        if (response.isSucces()) {
+                        if (response.isSuccess()) {
                             //取消收藏成功
                             mRootView.collect(false,position)
                         }else{

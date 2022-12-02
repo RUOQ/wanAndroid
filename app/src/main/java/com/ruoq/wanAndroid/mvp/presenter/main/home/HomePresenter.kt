@@ -98,7 +98,7 @@ constructor(model: HomeContract.Model, rootView: HomeContract.View) :
                                             override fun onNext(response: ApiResponse<MutableList<ArticleResponse>>) {
                                                 if (response.isSuccess()) {
                                                     //获取置顶文章成功，吧数据插到前面
-                                                    data.date.addAll(0, response.data)
+                                                    data.datas.addAll(0, response.data)
                                                     mRootView.requestArticleSuccess(data)
                                                 } else {
                                                     //获取置顶文章失败，那就不管他了
