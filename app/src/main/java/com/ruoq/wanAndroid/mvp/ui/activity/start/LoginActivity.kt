@@ -1,17 +1,18 @@
 package com.ruoq.wanAndroid.mvp.ui.activity.start
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
-import butterknife.OnClick
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.ruoq.wanAndroid.R
 import com.ruoq.wanAndroid.app.event.LoginFreshEvent
 import com.ruoq.wanAndroid.app.utils.CacheUtil
 import com.ruoq.wanAndroid.app.utils.SettingUtil
+import com.ruoq.wanAndroid.app.utils.ShowUtils
 import com.ruoq.wanAndroid.databinding.ActivityLoginBinding
 import com.ruoq.wanAndroid.di.component.start.DaggerLoginComponent
 import com.ruoq.wanAndroid.mvp.contract.start.LoginContract
@@ -36,7 +37,37 @@ class LoginActivity : BaseActivity<LoginPresenter>(),LoginContract.View {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         super.onCreate(savedInstanceState)
+        click()
     }
+
+    private fun click() {
+        with(binding){
+            //清除按钮
+            loginClear.setOnClickListener {
+                loginUsername.setText("")
+            }
+            //登录页面
+            loginSub.setOnClickListener {
+                if(loginUsername.text.isEmpty()){
+                    showMessage("请填写账号")
+                    return@setOnClickListener
+                }
+                if(loginPwd.text.isEmpty()){
+                    showMessage("请填写密码")
+                    return@setOnClickListener
+                }
+                mPresenter?.login(loginUsername.text.toString(),loginPwd.text.toString())
+
+            }
+
+            //去注册
+            loginGoregister.setOnClickListener {
+                startActivity(Intent(this@LoginActivity,RegisterActivity::class.java))
+            }
+
+        }
+    }
+
     override fun initView(savedInstanceState: Bundle?): Int {
 
         return 0 //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
@@ -111,30 +142,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(),LoginContract.View {
     }
 
     override fun showMessage(message: String) {
+         ShowUtils.showToastCenter(this@LoginActivity,message)
     }
 
-
-    @OnClick(R.id.login_clear, R.id.login_sub, R.id.login_goregister)
-    fun onViewClicked(view: View) {
-        when (view.id) {
-            R.id.login_clear -> binding.loginUsername.setText("")
-            R.id.login_sub -> {
-                when {
-
-                    binding.loginUsername.text.isEmpty() -> showMessage("请填写账号")
-                    binding.loginPwd.text.isEmpty() -> showMessage("请填写密码")
-                    else -> mPresenter?.login(
-                        binding.loginUsername.text.toString(),
-                        binding.loginPwd.text.toString()
-                    )
-
-                }
-
-            }
-            R.id.login_goregister -> {
-//                startActivity(Intent(this, RegisterActivity::class.java))
-            }
-
-        }
-    }
 }

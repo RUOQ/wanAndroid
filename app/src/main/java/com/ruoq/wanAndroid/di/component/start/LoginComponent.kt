@@ -4,6 +4,7 @@ import com.jess.arms.di.component.AppComponent
 import com.jess.arms.di.scope.ActivityScope
 import com.ruoq.wanAndroid.mvp.model.start.LoginModule
 import com.ruoq.wanAndroid.mvp.ui.activity.start.LoginActivity
+import com.ruoq.wanAndroid.mvp.ui.activity.start.RegisterActivity
 import dagger.Component
 
 /**
@@ -16,5 +17,5 @@ import dagger.Component
 @Component(modules = [LoginModule::class], dependencies = [AppComponent::class])
 interface LoginComponent {
     fun inject(activity: LoginActivity)
-//    fun inject1(activity: RegisterActivity)
+    fun inject1(activity: RegisterActivity)
 }

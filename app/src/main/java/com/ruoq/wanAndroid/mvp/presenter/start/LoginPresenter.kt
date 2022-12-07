@@ -1,6 +1,7 @@
 package com.ruoq.wanAndroid.mvp.presenter.start
 
 import android.app.Application
+import android.util.Log
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.integration.AppManager
 import com.jess.arms.mvp.BasePresenter
