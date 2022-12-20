@@ -1,4 +1,4 @@
-package me.hegj.wandroid.mvp.presenter.main.home
+package com.ruoq.wanAndroid.mvp.presenter.main.home
 
 import android.app.Application
 import com.jess.arms.di.scope.FragmentScope

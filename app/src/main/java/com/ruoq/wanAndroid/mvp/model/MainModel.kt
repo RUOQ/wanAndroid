@@ -1,4 +1,4 @@
-package com.ruoq.wanAndroid.mvp.model.main
+package com.ruoq.wanAndroid.mvp.model
 
 import android.app.Application
 import com.google.gson.Gson

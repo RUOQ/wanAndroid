@@ -22,40 +22,25 @@ import javax.inject.Inject
  * @Description : 文件描述
  */
 @ActivityScope
-
-class SearchModel @Inject constructor(repositoryManager: IRepositoryManager) :
-    BaseModel(repositoryManager) ,SearchResultContract.Model{
+class SearchModel
+@Inject constructor(repositoryManager: IRepositoryManager) :
+    BaseModel(repositoryManager) ,SearchContract.Model{
 
     @Inject
     lateinit var mGson: Gson
 
     @Inject
     lateinit var mApplication: Application
+    override fun getHotData(): Observable<ApiResponse<MutableList<SearchResponse>>> {
+        return mRepositoryManager
+            .obtainRetrofitService(Api::class.java)
+            .getSearchData()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
     }
 
 
-    /**
-     * 取消收藏
-     */
-    override fun unCollect(id:Int):Observable<ApiResponse<Any>>{
-        return mRepositoryManager.obtainRetrofitService(Api::class.java).unCollect(id)
-    }
 
-    override fun getArticleList(
-        pageNo: Int,
-        searchKey: String
-    ): Observable<ApiResponse<ApiPagerResponse<MutableList<ArticleResponse>>>> {
-        return mRepositoryManager.obtainRetrofitService(Api::class.java)
-            .getSearchDataByKey(pageNo,searchKey)
-    }
-
-    /**
-     * 收藏
-     */
-    override fun collect(id:Int):Observable<ApiResponse<Any>>{
-        return mRepositoryManager.obtainRetrofitService(Api::class.java).collect(id)
-    }
 }
