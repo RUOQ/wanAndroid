@@ -34,7 +34,7 @@ class MainActivity : BaseActivity<IPresenter>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         if(findFragment(MainFragment::class.java) == null){
-//            loadRootFragment(R.id.main_framelayout,MainFragment.newInstance())
+            loadRootFragment(R.id.main_frameLayout,MainFragment.newInstance())
         }
 //        //进入首页检查更新,bugly
 //        Beta.checkAppUpgrade(false,true)

@@ -70,7 +70,7 @@ class MainFragment: BaseFragment<MainPresenter>(),MainContract.View {
 //            mFragments[five] = MeFragment.newInstance()
             loadMultipleRootFragment(
                 R.id.main_frame, first, mFragments[first]
-                , mFragments[two], mFragments[three], mFragments[four], mFragments[five])
+                , mFragments[two], mFragments[three])
         }else{
             mFragments[first] = homeFragment
             mFragments[two] = findChildFragment(ProjectFragment::class.java)
@@ -92,8 +92,8 @@ class MainFragment: BaseFragment<MainPresenter>(),MainContract.View {
                     R.id.menu_main -> showHideFragment(mFragments[first])
                     R.id.menu_project -> showHideFragment(mFragments[two])
                     R.id.menu_system -> showHideFragment(mFragments[three])
-                    R.id.menu_public -> showHideFragment(mFragments[four])
-                    R.id.menu_me -> showHideFragment(mFragments[five])
+//                    R.id.menu_public -> showHideFragment(mFragments[four])
+//                    R.id.menu_me -> showHideFragment(mFragments[five])
                 }
                 true
             }

@@ -11,6 +11,7 @@ import com.jess.arms.di.component.AppComponent
 import com.jess.arms.mvp.IPresenter
 import com.ruoq.wanAndroid.app.utils.SettingUtil
 import com.ruoq.wanAndroid.databinding.ActivitySplashBinding
+import com.ruoq.wanAndroid.mvp.ui.activity.MainActivity
 
 class SplashActivity : BaseActivity<IPresenter>() {
     private lateinit var binding:ActivitySplashBinding
@@ -64,7 +65,7 @@ class SplashActivity : BaseActivity<IPresenter>() {
     }
 
     private fun gotoMainActivity(){
-        startActivity(Intent(this,LoginActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
         //带点渐变动画
         overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
