@@ -59,7 +59,7 @@ constructor(model: ProjectContract.Model, rootView: ProjectContract.View) :
                 .retryWhen(RetryWithDelay(1, 0))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))// activity的绑定方式 使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))// activity的绑定方式 使用 RxLifecycle,使 Disposable 和 Activity 一起销毁
                 .subscribe(object : ErrorHandleSubscriber<ApiResponse<MutableList<ClassifyResponse>>>(mErrorHandler) {
                     override fun onNext(response: ApiResponse<MutableList<ClassifyResponse>>) {
                         if (response.isSuccess()) {

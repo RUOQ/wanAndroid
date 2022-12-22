@@ -54,8 +54,8 @@ interface Api {
     /**
      * 获取首页文章数据
      */
-    @GET("article/list/{page}/json")
-    fun getArticleList(@Path("Page") PageNo:Int):Observable
+    @GET("/article/list/{page}/json")
+    fun getArticleList(@Path("page") pageNo:Int):Observable
     <ApiResponse<ApiPagerResponse<MutableList<ArticleResponse>>>>
 
     /**

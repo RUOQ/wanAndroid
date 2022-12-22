@@ -1,6 +1,8 @@
 package com.ruoq.wanAndroid.mvp.presenter.main.home
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Log
 import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.integration.AppManager
@@ -83,9 +85,11 @@ constructor(model: HomeContract.Model, rootView: HomeContract.View) :
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindUntilEvent(mRootView,FragmentEvent.DESTROY))//fragment的绑定方式 使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
                 .subscribe(object : ErrorHandleSubscriber<ApiResponse<ApiPagerResponse<MutableList<ArticleResponse>>>>(mErrorHandler) {
+                    @SuppressLint("LogNotTimber")
                     override fun onNext(response: ApiResponse<ApiPagerResponse<MutableList<ArticleResponse>>>) {
                         if (response.isSuccess()) {
                             data = response.data
+                            Log.e("qin","data--${data.size}")
                             if (SettingUtil.getRequestTop(mApplication) && pageNo == 0) {
                                 //如果设置的时获取置顶文章，并且当前请求是第一页的话----获取首页置顶文章
                                 mModel.getTopArticleList()
@@ -98,10 +102,12 @@ constructor(model: HomeContract.Model, rootView: HomeContract.View) :
                                             override fun onNext(response: ApiResponse<MutableList<ArticleResponse>>) {
                                                 if (response.isSuccess()) {
                                                     //获取置顶文章成功，吧数据插到前面
+                                                    Log.e("qin","data--获取置顶数据成功")
                                                     data.datas.addAll(0, response.data)
                                                     mRootView.requestArticleSuccess(data)
                                                 } else {
                                                     //获取置顶文章失败，那就不管他了
+                                                    Log.e("qin","data--获取置顶数据失败")
                                                     mRootView.requestArticleSuccess(data)
                                                 }
                                             }
@@ -113,15 +119,18 @@ constructor(model: HomeContract.Model, rootView: HomeContract.View) :
                                             }
                                         })
                             } else {
+                                Log.e("qin","data--没有获取置顶数据")
                                 mRootView.requestArticleSuccess(response.data)
                             }
                         } else {
+                            Log.e("qin","data--数据错误")
                             mRootView.requestArticleFailed(response.errorMsg)
                         }
                     }
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        Log.e("qin","data--直接报错")
                         mRootView.requestArticleFailed(HttpUtils.getErrorText(t))
                     }
                 })

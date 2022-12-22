@@ -11,8 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".mvp.ui.activity.MainActivity"
-            />
+            android:name=".mvp.ui.activity.main.web.WebViewActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.activity.MainActivity" />
         <activity
             android:name=".mvp.ui.activity.start.SplashActivity"
             android:exported="true">

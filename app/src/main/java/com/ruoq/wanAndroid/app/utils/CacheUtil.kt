@@ -79,8 +79,10 @@ object  CacheUtil {
     fun getProjectTitles():MutableList<ClassifyResponse>{
         val kv = MMKV.mmkvWithID("cache")
         val projectCacheStr = kv.decodeString("proj")
-        if(projectCacheStr.isEmpty()){
+        if(!TextUtils.isEmpty(projectCacheStr)){
             return Gson().fromJson(projectCacheStr,object :TypeToken<MutableList<ClassifyResponse>>(){}.type)
+        }else{
+
         }
 
         return mutableListOf()

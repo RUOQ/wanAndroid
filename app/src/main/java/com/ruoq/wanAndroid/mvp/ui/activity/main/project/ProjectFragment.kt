@@ -15,6 +15,7 @@ import com.kingja.loadsir.core.LoadSir
 import com.ruoq.wanAndroid.R
 import com.ruoq.wanAndroid.app.event.SettingChangeEvent
 import com.ruoq.wanAndroid.app.utils.SettingUtil
+import com.ruoq.wanAndroid.app.utils.setUiTheme
 import com.ruoq.wanAndroid.app.weight.ScaleTransitionPagerTitleView
 import com.ruoq.wanAndroid.app.weight.loadCallBack.ErrorCallback
 import com.ruoq.wanAndroid.app.weight.loadCallBack.LoadingCallBack
@@ -71,7 +72,7 @@ class ProjectFragment:BaseFragment<ProjectPresenter>(),ProjectContract.View {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentViewpagerBinding.inflate(inflater,container,false)
-        loadService = LoadSir.getDefault().register(binding.includeLayout.viewPager){
+        loadService = LoadSir.getDefault().register(binding.viewPager){
             loadService.showCallback(LoadingCallBack::class.java)
             mPresenter?.getProjectTitles()
         }.apply {
@@ -82,7 +83,7 @@ class ProjectFragment:BaseFragment<ProjectPresenter>(),ProjectContract.View {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        binding.includeLayout.viewpagerLinear.setBackgroundColor(SettingUtil.getColor(_mActivity))
+        binding.viewpagerLinear.setBackgroundColor(SettingUtil.getColor(_mActivity))
         //初始化的时候就请求数据，就是说一进入主页的Activity就会请求
         //不然用户进来这个Fragment的时候再请求的话，界面头部啥也没有，这就不好看了
         mPresenter?.getProjectTitles()
@@ -92,7 +93,7 @@ class ProjectFragment:BaseFragment<ProjectPresenter>(),ProjectContract.View {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         pagerAdapter = ViewPagerAdapter(childFragmentManager,fragments)
-        binding.includeLayout.viewPager.adapter = pagerAdapter
+        binding.viewPager.adapter = pagerAdapter
         val commonNavigator = CommonNavigator(_mActivity)
         commonNavigator.adapter = object :CommonNavigatorAdapter(){
             override fun getCount(): Int {
@@ -106,7 +107,7 @@ class ProjectFragment:BaseFragment<ProjectPresenter>(),ProjectContract.View {
                     normalColor = Color.WHITE
                     selectedColor = Color.WHITE
                     setOnClickListener{
-                        binding.includeLayout.viewPager.setCurrentItem(index,false)
+                        binding.viewPager.setCurrentItem(index,false)
                     }
                 }
             }
@@ -128,8 +129,8 @@ class ProjectFragment:BaseFragment<ProjectPresenter>(),ProjectContract.View {
 
         }
 
-        binding.includeLayout.magicIndicator.navigator = commonNavigator
-        ViewPagerHelper.bind(binding.includeLayout.magicIndicator,binding.includeLayout.viewPager)
+        binding.magicIndicator.navigator = commonNavigator
+        ViewPagerHelper.bind(binding.magicIndicator,binding.viewPager)
     }
 
     override fun requestTitleSuccess(titles: MutableList<ClassifyResponse>) {
@@ -159,8 +160,8 @@ class ProjectFragment:BaseFragment<ProjectPresenter>(),ProjectContract.View {
             }
             //如果viewpager 和magicIndicator 不为空的话，刷新他们，为空的话说明，用户还没有进入这个Fragment
             pagerAdapter?.notifyDataSetChanged()
-            binding.includeLayout.magicIndicator.navigator?.notifyDataSetChanged()
-            binding.includeLayout.viewPager.offscreenPageLimit = fragments.size
+            binding.magicIndicator.navigator?.notifyDataSetChanged()
+            binding.viewPager.offscreenPageLimit = fragments.size
         }
 
         /**
@@ -169,7 +170,7 @@ class ProjectFragment:BaseFragment<ProjectPresenter>(),ProjectContract.View {
          */
         @Subscribe
         fun settingEvent(event:SettingChangeEvent){
-//            setUiTheme(_mActivity, listOf(binding.includeLayout.viewpagerLinear,loadService))
+            setUiTheme(_mActivity, listOf(binding.viewpagerLinear,loadService))
         }
     }
 }

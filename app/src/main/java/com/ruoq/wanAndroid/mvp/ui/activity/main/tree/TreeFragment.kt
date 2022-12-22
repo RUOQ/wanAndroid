@@ -61,7 +61,7 @@ class TreeFragment: BaseFragment<IPresenter>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        binding.includeLayout.includeViewpagerToolbar.apply {
+        binding.includeViewpagerToolbar.apply {
             setBackgroundColor(SettingUtil.getColor(_mActivity))
             inflateMenu(R.menu.todo_menu)
             setOnMenuItemClickListener {
@@ -71,7 +71,7 @@ class TreeFragment: BaseFragment<IPresenter>() {
                 true
             }
         }
-        binding.includeLayout.viewpagerLinear.setBackgroundColor(SettingUtil.getColor(_mActivity))
+        binding.viewpagerLinear.setBackgroundColor(SettingUtil.getColor(_mActivity))
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
@@ -83,7 +83,7 @@ class TreeFragment: BaseFragment<IPresenter>() {
         }
 
         pagerAdapter = ViewPagerAdapter(childFragmentManager,fragments)
-        binding.includeLayout.viewPager.apply {
+        binding.viewPager.apply {
             adapter = pagerAdapter
             offscreenPageLimit = fragments.size
             addOnPageChangeListener(object:ViewPager.OnPageChangeListener{
@@ -97,11 +97,11 @@ class TreeFragment: BaseFragment<IPresenter>() {
 
                 override fun onPageSelected(position: Int) {
                     if(position != 0){
-                        binding.includeLayout.includeViewpagerToolbar.menu.clear()
+                        binding.includeViewpagerToolbar.menu.clear()
                     }else{
-                        binding.includeLayout.includeViewpagerToolbar.menu.hasVisibleItems().let {
+                        binding.includeViewpagerToolbar.menu.hasVisibleItems().let {
                             if(!it){
-                                binding.includeLayout.includeViewpagerToolbar.inflateMenu(R.menu.todo_menu)
+                                binding.includeViewpagerToolbar.inflateMenu(R.menu.todo_menu)
                             }
                         }
                     }
@@ -127,13 +127,13 @@ class TreeFragment: BaseFragment<IPresenter>() {
                     normalColor = Color.WHITE
                     selectedColor = Color.WHITE
                     setOnClickListener {
-                        binding.includeLayout.viewPager.setCurrentItem(index,false)
+                        binding.viewPager.setCurrentItem(index,false)
                         if(index != 0){
-                            binding.includeLayout.includeViewpagerToolbar.menu.clear()
+                            binding.includeViewpagerToolbar.menu.clear()
                         }else{
-                            binding.includeLayout.includeViewpagerToolbar.menu.hasVisibleItems().let {
+                            binding.includeViewpagerToolbar.menu.hasVisibleItems().let {
                                 if(!it){
-                                    binding.includeLayout.includeViewpagerToolbar.inflateMenu(R.menu.todo_menu)
+                                    binding.includeViewpagerToolbar.inflateMenu(R.menu.todo_menu)
                                 }
                             }
                         }
@@ -154,8 +154,8 @@ class TreeFragment: BaseFragment<IPresenter>() {
             }
         }
 
-        binding.includeLayout.magicIndicator.navigator = commonNavigator
-        ViewPagerHelper.bind(binding.includeLayout.magicIndicator,binding.includeLayout.viewPager)
+        binding.magicIndicator.navigator = commonNavigator
+        ViewPagerHelper.bind(binding.magicIndicator,binding.viewPager)
     }
 
 
