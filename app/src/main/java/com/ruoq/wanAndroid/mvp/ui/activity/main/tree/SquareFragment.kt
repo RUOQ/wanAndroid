@@ -31,6 +31,7 @@ import com.ruoq.wanAndroid.mvp.contract.main.tree.SquareContract
 import com.ruoq.wanAndroid.mvp.model.entity.ApiPagerResponse
 import com.ruoq.wanAndroid.mvp.model.entity.ArticleResponse
 import com.ruoq.wanAndroid.mvp.presenter.main.tree.SquarePresenter
+import com.ruoq.wanAndroid.mvp.ui.activity.main.web.WebViewActivity
 import com.ruoq.wanAndroid.mvp.ui.adapter.ArticleAdapter
 import com.ruoq.wanAndroid.mvp.ui.base.BaseFragment
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
@@ -144,13 +145,13 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
             }
 
             setOnItemClickListener{_, view, position ->
-//                launchActivity(Intent(_mActivity,WebViewActivity::class.java).apply {
-//                    putExtras(Bundle().apply{
-//                        putSerializable("data",this@SquareFragment.adapter.data[position])
-//                        putString("tag",this@SquareFragment::class.java.simpleName)
-//                        putInt("position",position)
-//                    })
-//                })
+                launchActivity(Intent(_mActivity, WebViewActivity::class.java).apply {
+                    putExtras(Bundle().apply{
+                        putSerializable("data",this@SquareFragment.adapter.data[position])
+                        putString("tag",this@SquareFragment::class.java.simpleName)
+                        putInt("position",position)
+                    })
+                })
             }
         }
     }
