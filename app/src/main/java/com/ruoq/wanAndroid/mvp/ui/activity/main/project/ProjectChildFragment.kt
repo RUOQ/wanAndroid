@@ -19,6 +19,7 @@ import com.ruoq.wanAndroid.app.event.LoginFreshEvent
 import com.ruoq.wanAndroid.app.event.SettingChangeEvent
 import com.ruoq.wanAndroid.app.utils.RecyclerViewUtils
 import com.ruoq.wanAndroid.app.utils.SettingUtil
+import com.ruoq.wanAndroid.app.utils.setUiTheme
 import com.ruoq.wanAndroid.app.weight.CollectView
 import com.ruoq.wanAndroid.app.weight.DefineLoadMoreView
 import com.ruoq.wanAndroid.app.weight.loadCallBack.EmptyCallback
@@ -26,16 +27,14 @@ import com.ruoq.wanAndroid.app.weight.loadCallBack.ErrorCallback
 import com.ruoq.wanAndroid.app.weight.loadCallBack.LoadingCallBack
 import com.ruoq.wanAndroid.databinding.FragmentListBinding
 import com.ruoq.wanAndroid.di.component.project.DaggerProjectChildComponent
-import com.ruoq.wanAndroid.di.component.project.DaggerProjectComponent
 import com.ruoq.wanAndroid.di.module.main.project.ProjectChildModule
 import com.ruoq.wanAndroid.mvp.contract.main.project.ProjectChildContract
 import com.ruoq.wanAndroid.mvp.model.entity.ApiPagerResponse
 import com.ruoq.wanAndroid.mvp.model.entity.ArticleResponse
-import com.ruoq.wanAndroid.mvp.ui.base.BaseFragment
 import com.ruoq.wanAndroid.mvp.presenter.main.project.ProjectChildPresenter
-import com.ruoq.wanAndroid.mvp.ui.activity.start.LoginActivity
+import com.ruoq.wanAndroid.mvp.ui.activity.main.web.WebViewActivity
 import com.ruoq.wanAndroid.mvp.ui.adapter.ArticleAdapter
-import com.yanzhenjie.recyclerview.SwipeRecyclerView
+import com.ruoq.wanAndroid.mvp.ui.base.BaseFragment
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -150,7 +149,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
 
             //点击了整行
             setOnItemClickListener{_,view, position ->
-                val intent = Intent(_mActivity, LoginActivity::class.java)
+                val intent = Intent(_mActivity, WebViewActivity::class.java)
                 val bundle = Bundle().apply {
                     putSerializable("data", adapter.data[position])
                     putString("tag", this@ProjectChildFragment::class.java.simpleName)
@@ -334,7 +333,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
      */
     @Subscribe
     fun settingEvent(event:SettingChangeEvent){
-
+        setUiTheme(_mActivity, listOf(binding.floatbtn,binding.swipeRefreshLayout,loadSir,footView,adapter))
     }
 
 }
