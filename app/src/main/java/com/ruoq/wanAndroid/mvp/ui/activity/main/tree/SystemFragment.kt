@@ -59,7 +59,7 @@ class SystemFragment: BaseFragment<SystemPresenter>(),SystemContract.View {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListBinding.inflate(inflater,container,false)
-        loadSir = LoadSir.getDefault().register(binding.layoutRv.swipeRefreshLayout){
+        loadSir = LoadSir.getDefault().register(binding.swipeRefreshLayout){
             loadSir.showCallback(LoadingCallBack::class.java)
             //点击重试时请求
             mPresenter?.getSystemData()
@@ -72,7 +72,7 @@ class SystemFragment: BaseFragment<SystemPresenter>(),SystemContract.View {
     override fun initData(savedInstanceState: Bundle?) {
         //初始化swipeRefreshLayout
         with(binding){
-            layoutRv.swipeRefreshLayout.run{
+            swipeRefreshLayout.run{
                 //设置颜色
                 setColorSchemeColors(SettingUtil.getColor(_mActivity))
                 //设置刷新监听回调
@@ -84,18 +84,18 @@ class SystemFragment: BaseFragment<SystemPresenter>(),SystemContract.View {
             floatbtn.run{
                 backgroundTintList = SettingUtil.getOneColorStateList(_mActivity)
                 setOnClickListener {
-                    val layoutManager =layoutRv.swiperecyclerview.layoutManager as LinearLayoutManager
+                    val layoutManager =swiperecyclerview.layoutManager as LinearLayoutManager
                     //如果当前Recycleview最后一个视图的索引大于40，则迅速返回顶部，否则带有滚动效果返回顶部
                     if(layoutManager.findLastVisibleItemPosition() >= 40){
-                        layoutRv.swiperecyclerview.scrollToPosition(0)
+                        swiperecyclerview.scrollToPosition(0)
                     }else{
-                        layoutRv.swiperecyclerview.smoothScrollToPosition(0)
+                        swiperecyclerview.smoothScrollToPosition(0)
                     }
                 }
             }
 
             //初始化Recycler view
-            layoutRv.swiperecyclerview.run{
+            swiperecyclerview.run{
                 layoutManager = LinearLayoutManager(_mActivity)
                 setHasFixedSize(true)
                 //设置item的行间距
@@ -146,7 +146,7 @@ class SystemFragment: BaseFragment<SystemPresenter>(),SystemContract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        binding.layoutRv.swiperecyclerview.adapter = adapter //设置适配器
+        binding.swiperecyclerview.adapter = adapter //设置适配器
         loadSir.showCallback(LoadingCallBack::class.java)  //设置加载中
         mPresenter?.getSystemData() //请求数据
     }
@@ -157,7 +157,7 @@ class SystemFragment: BaseFragment<SystemPresenter>(),SystemContract.View {
             //集合大小为0 说明肯定是第一次请求数据并且请求失败了，因为只要请求成功过一次就会有缓存数据
             loadSir.showCallback(ErrorCallback::class.java)
         } else {
-            binding.layoutRv.swipeRefreshLayout.isRefreshing = false
+            binding.swipeRefreshLayout.isRefreshing = false
             loadSir.showCallback(SuccessCallback::class.java)
             adapter.setNewData(data)
         }

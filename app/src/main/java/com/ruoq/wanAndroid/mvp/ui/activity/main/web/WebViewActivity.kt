@@ -47,12 +47,6 @@ class WebViewActivity : BaseActivity<WebViewPresenter>(),WebViewContract.View {
     private var _binding:ActivityWebviewBinding ?= null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        _binding = ActivityWebviewBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
-
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerWebViewComponent
             .builder()
@@ -70,6 +64,8 @@ class WebViewActivity : BaseActivity<WebViewPresenter>(),WebViewContract.View {
        //因为有多个地方进入详情，且数据结构不同，
         //如文章，轮播页，收藏文章列表，收藏地址列表邓
         //做收藏的话需要判断，这里搞了感觉很多余的处理
+        _binding = ActivityWebviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         intent.getSerializableExtra("data")?.let {
             it as ArticleResponse
             id = it.id

@@ -75,7 +75,7 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentListBinding.inflate(inflater,container,false)
-        loadSir = LoadSir.getDefault().register(binding.layoutRv.swipeRefreshLayout){
+        loadSir = LoadSir.getDefault().register(binding.swipeRefreshLayout){
             loadSir.showCallback(LoadingCallBack::class.java)
             //点击重试时请求
             mPresenter?.getSquareData(pageNo)
@@ -87,7 +87,7 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        binding.layoutRv.swipeRefreshLayout.run{
+        binding.swipeRefreshLayout.run{
             //设置颜色
             setColorSchemeColors(SettingUtil.getColor(_mActivity))
             //设置刷新监听回调
@@ -100,27 +100,27 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
         binding.floatbtn.run{
           backgroundTintList = SettingUtil.getOneColorStateList(_mActivity)
           setOnClickListener {
-              val layoutManager = binding.layoutRv.swiperecyclerview.layoutManager as LinearLayoutManager
+              val layoutManager = binding.swiperecyclerview.layoutManager as LinearLayoutManager
               //如果当前Recyclerview最后一个视图位置的索引大于等于40，则迅速返回顶部
               //否则带有滚动效果返回顶部
               if(layoutManager.findLastVisibleItemPosition() >= 40){
-                  binding.layoutRv.swiperecyclerview.scrollToPosition(0)
+                  binding.swiperecyclerview.scrollToPosition(0)
               }else{
-                  binding.layoutRv.swiperecyclerview.smoothScrollToPosition(0)
+                  binding.swiperecyclerview.smoothScrollToPosition(0)
               }
           }
         }
 
 
         //初始化Recyclerview
-        footView = RecyclerViewUtils().initRecyclerView(_mActivity,binding.layoutRv.swiperecyclerview,SwipeRecyclerView.LoadMoreListener {
+        footView = RecyclerViewUtils().initRecyclerView(_mActivity,binding.swiperecyclerview,SwipeRecyclerView.LoadMoreListener {
             //加载更多
             mPresenter?.getSquareData(pageNo)
         }).apply {
             setLoadViewColor(SettingUtil.getOneColorStateList(_mActivity))
         }
 
-        binding.layoutRv.swiperecyclerview.run{
+        binding.swiperecyclerview.run{
             layoutManager = LinearLayoutManager(_mActivity)
             setHasFixedSize(true)
             //监听Recyclerview滑动到顶部的时候，需要把向上返回的顶部的按钮隐藏
@@ -158,7 +158,7 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         //设置适配器
-        binding.layoutRv.swiperecyclerview.adapter = adapter
+        binding.swiperecyclerview.adapter = adapter
         //设置加载中
         loadSir.showCallback(LoadingCallBack::class.java)
         //请求数据
@@ -167,7 +167,7 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
 
 
     override fun requestDataSuccess(apiPagerResponse: ApiPagerResponse<MutableList<ArticleResponse>>) {
-        binding.layoutRv.swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.isRefreshing = false
         if(pageNo == initPageNO && apiPagerResponse.datas.size == 0){
             //如果是第一页并且没有数据，则显示空布局
             loadSir.showCallback(EmptyCallback::class.java)
@@ -185,15 +185,15 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
         pageNo ++
         if(apiPagerResponse.pageCount >= pageNo){
             //如果总条数大于等于当前页数时，还有更多数据
-            binding.layoutRv.swiperecyclerview.loadMoreFinish(false,true)
+            binding.swiperecyclerview.loadMoreFinish(false,true)
         }else{
             //没有更多数据
             //解释一下为什么这里要延时0.2秒操作。。。
             //因为上面的adapter.addData(data) 数据刷新了适配器，是需要等待时间的，还没刷新完，这里就已经执行了没有更多数据
             //所以在界面上会出现一个小bug，刷新最后一页的时候，没有更多数据啦提示先展示出来了，然后才会加载出请求到的数据
             //暂时还没有找到好的方法，就用这个处理一下，如果觉得没什么影响的可以去掉这个延时操作，或者有更好的解决方式可以告诉我一下
-            binding.layoutRv.swiperecyclerview.postDelayed({
-                binding.layoutRv.swiperecyclerview.loadMoreFinish(false,false)
+            binding.swiperecyclerview.postDelayed({
+                binding.swiperecyclerview.loadMoreFinish(false,false)
             },200)
         }
 
@@ -203,7 +203,7 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
 
     override fun requestDataFailed(errorMsg: String) {
         with(binding){
-            layoutRv.swipeRefreshLayout.isRefreshing = false
+            swipeRefreshLayout.isRefreshing = false
             if(pageNo == initPageNO){
                 //如果页码是初始页，说明是刷新，界面切换成错误页
                 loadSir.setCallBack(ErrorCallback::class.java){_, view ->
@@ -216,7 +216,7 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
 
             }else{
                 //页码不是0，说明加载更多时出现加载错误，设置Recyclerview加载错误
-                binding.layoutRv.swiperecyclerview.loadMoreError(0,errorMsg)
+                binding.swiperecyclerview.loadMoreError(0,errorMsg)
             }
         }
     }
@@ -282,7 +282,7 @@ class SquareFragment: BaseFragment<SquarePresenter>(),SquareContract.View {
     fun addEvent(event: AddEvent){
         if(event.code== AddEvent.SHARE_CODE ||event.code==AddEvent.DELETE_CODE){
             //刷新
-            binding.layoutRv.swipeRefreshLayout.isRefreshing = true
+            binding.swipeRefreshLayout.isRefreshing = true
             pageNo = initPageNO
             mPresenter?.getSquareData(pageNo)
         }

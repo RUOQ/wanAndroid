@@ -94,7 +94,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
     ): View {
         _binding = FragmentListBinding.inflate(inflater,container,false)
         //绑定loadSir
-        loadSir = LoadSir.getDefault().register(binding.layoutRv.swipeRefreshLayout){
+        loadSir = LoadSir.getDefault().register(binding.swipeRefreshLayout){
             loadSir.showCallback(LoadingCallBack::class.java)
             pageNo = initPageNo
             if(isNew){
@@ -115,7 +115,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
         isNew = arguments?.getBoolean("isNew") ?:false
 
         //初始化 swipeRefreshLayout
-        binding.layoutRv.swipeRefreshLayout.run {
+        binding.swipeRefreshLayout.run {
             setColorSchemeColors(SettingUtil.getColor(_mActivity))
             setOnRefreshListener {
                 //刷新
@@ -167,21 +167,21 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
         binding.floatbtn.run{
             backgroundTintList = SettingUtil.getOneColorStateList(_mActivity)
             setOnClickListener{
-                val layoutManager = binding.layoutRv.swiperecyclerview.layoutManager as LinearLayoutManager
+                val layoutManager = binding.swiperecyclerview.layoutManager as LinearLayoutManager
                 //如果当前Recyclerview的最后一个视图索引大于等于40，则迅速返回顶部，否则带有滚动动画效果返回顶部
                 if(layoutManager.findLastVisibleItemPosition() >= 40){
                     //没有动画迅速返回到顶部
-                    binding.layoutRv.swiperecyclerview.scrollToPosition(0)
+                    binding.swiperecyclerview.scrollToPosition(0)
                 }else{
                     //有滚动动画返回到顶部
-                    binding.layoutRv.swiperecyclerview.smoothScrollToPosition(0)
+                    binding.swiperecyclerview.smoothScrollToPosition(0)
                 }
             }
         }
 
         //初始化Recyclerview
        footView = RecyclerViewUtils().initRecyclerView(_mActivity,
-           binding.layoutRv.swiperecyclerview
+           binding.swiperecyclerview
        ) {
            if (isNew) {
                mPresenter?.getProjectNewData(pageNo)
@@ -192,7 +192,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
             setLoadViewColor(SettingUtil.getOneColorStateList(_mActivity))
        }
 
-        binding.layoutRv.swiperecyclerview.run{
+        binding.swiperecyclerview.run{
             //监听recyclerview的滑动，滑动到顶部时候，需要将向上返回的按钮隐藏
             addOnScrollListener(object: RecyclerView.OnScrollListener(){
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -214,7 +214,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         loadSir.showCallback(LoadingCallBack::class.java)  //默认设置界面加载中
-        binding.layoutRv.swiperecyclerview.adapter = adapter //设置适配器
+        binding.swiperecyclerview.adapter = adapter //设置适配器
         if(isNew){
             mPresenter?.getProjectNewData(pageNo)
         }else{
@@ -223,7 +223,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
     }
 
     override fun requestDataSucc(apiPagerResponse: ApiPagerResponse<MutableList<ArticleResponse>>) {
-       binding.layoutRv.swipeRefreshLayout.isRefreshing  = false
+       binding.swipeRefreshLayout.isRefreshing  = false
         if(pageNo == initPageNo && apiPagerResponse.datas.size == 0){
             //如果是第一页，并且没有数据，页面提示空布局
             loadSir.showCallback(EmptyCallback::class.java)
@@ -240,22 +240,22 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
         pageNo ++
         if(apiPagerResponse.pageCount >= pageNo){
             //如果总条数大于等于当前页数时，还有更多数据
-            binding.layoutRv.swiperecyclerview.loadMoreFinish(false,true)
+            binding.swiperecyclerview.loadMoreFinish(false,true)
         }else{
             //没有更多数据
-            binding.layoutRv.swiperecyclerview.postDelayed({
+            binding.swiperecyclerview.postDelayed({
                 //解释一下为什么这里要延时0.2秒操作。。。
                 //因为上面的adapter.addData(data) 数据刷新了适配器，是需要时间的，还没刷新完，这里就已经执行了没有更多数据
                 //所以在界面上会出现一个小bug，刷新最后一页的时候，没有更多数据啦提示先展示出来了，然后才会加载出请求到的数据
                 //暂时还没有找到好的方法，就用这个处理一下，如果觉得没什么影响的可以去掉这个延时操作，或者有更好的解决方式可以告诉我一下
-                binding.layoutRv.swiperecyclerview.loadMoreFinish(false,false)
+                binding.swiperecyclerview.loadMoreFinish(false,false)
                                                            },200)
         }
     }
 
     override fun requestDataFaild(errorMsg: String) {
         with(binding){
-            layoutRv.swipeRefreshLayout.isRefreshing = false
+            swipeRefreshLayout.isRefreshing = false
             //如果页码是初始页，说明是刷新，界面切换成错误页
             if(pageNo == initPageNo){
                 loadSir.setCallBack(ErrorCallback::class.java){_,view ->
@@ -265,7 +265,7 @@ class ProjectChildFragment: BaseFragment<ProjectChildPresenter>(),
                 loadSir.showCallback(ErrorCallback::class.java)
             }else{
                 //页码不是0，说明加载更多时出现错误，设置Recyclerview加载错误
-                layoutRv.swiperecyclerview.loadMoreError(0,errorMsg)
+               swiperecyclerview.loadMoreError(0,errorMsg)
             }
         }
     }

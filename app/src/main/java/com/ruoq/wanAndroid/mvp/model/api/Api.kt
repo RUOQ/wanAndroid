@@ -67,7 +67,7 @@ interface Api {
     /**
      * 取消收藏
      */
-    @POST("/lg/unCollect_originId/{id}/json")
+    @POST("/lg/uncollect_originId/{id}/json")
     fun unCollect(@Path("id") id:Int):Observable<ApiResponse<Any>>
 
     /**

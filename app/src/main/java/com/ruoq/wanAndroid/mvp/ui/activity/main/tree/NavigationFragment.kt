@@ -66,7 +66,7 @@ class NavigationFragment: BaseFragment<NavigationPresenter>(),NavigationContract
         savedInstanceState: Bundle?
     ): View {
          _binding = FragmentListBinding.inflate(inflater,container,false)
-        loadSir = LoadSir.getDefault().register(binding.layoutRv.swipeRefreshLayout){
+        loadSir = LoadSir.getDefault().register(binding.swipeRefreshLayout){
             loadSir.showCallback(LoadingCallBack::class.java)
             mPresenter?.getNavigationData()
         }.apply {
@@ -77,7 +77,7 @@ class NavigationFragment: BaseFragment<NavigationPresenter>(),NavigationContract
 
     override fun initData(savedInstanceState: Bundle?) {
         //初始化swipeRefreshLayout
-        binding.layoutRv.swipeRefreshLayout.run {
+        binding.swipeRefreshLayout.run {
             //设置颜色
             setColorSchemeColors(SettingUtil.getColor(_mActivity))
             //设置刷新监听回调
@@ -88,17 +88,17 @@ class NavigationFragment: BaseFragment<NavigationPresenter>(),NavigationContract
         binding.floatbtn.run {
             backgroundTintList = SettingUtil.getOneColorStateList(_mActivity)
             setOnClickListener {
-                val layoutManager = binding.layoutRv.swiperecyclerview.layoutManager as LinearLayoutManager
+                val layoutManager = binding.swiperecyclerview.layoutManager as LinearLayoutManager
                 //如果当前recyclerview 最后一个视图位置的索引大于等于40，则迅速返回顶部，否则带有滚动动画效果返回到顶部
                 if (layoutManager.findLastVisibleItemPosition() >= 40) {
-                    binding.layoutRv.swiperecyclerview.scrollToPosition(0)//没有动画迅速返回到顶部(极快)
+                    binding.swiperecyclerview.scrollToPosition(0)//没有动画迅速返回到顶部(极快)
                 } else {
-                    binding.layoutRv.swiperecyclerview.smoothScrollToPosition(0)//有滚动动画返回到顶部(有点慢)
+                    binding.swiperecyclerview.smoothScrollToPosition(0)//有滚动动画返回到顶部(有点慢)
                 }
             }
         }
         //初始化recyclerview
-        binding.layoutRv.swiperecyclerview.run {
+        binding.swiperecyclerview.run {
             layoutManager = LinearLayoutManager(_mActivity)
             setHasFixedSize(true)
             //设置item的行间距
@@ -140,7 +140,7 @@ class NavigationFragment: BaseFragment<NavigationPresenter>(),NavigationContract
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        binding.layoutRv.swiperecyclerview.adapter = adapter//设置适配器
+        binding.swiperecyclerview.adapter = adapter//设置适配器
         loadSir.showCallback(LoadingCallBack::class.java)//设置加载中
         mPresenter?.getNavigationData()//请求数据
     }
@@ -154,7 +154,7 @@ class NavigationFragment: BaseFragment<NavigationPresenter>(),NavigationContract
             //集合大小为0 说明肯定是第一次请求数据并且请求失败了，因为只要请求成功过一次就会有缓存数据
             loadSir.showCallback(ErrorCallback::class.java)
         } else {
-            binding.layoutRv.swipeRefreshLayout.isRefreshing = false
+            binding.swipeRefreshLayout.isRefreshing = false
             loadSir.showCallback(SuccessCallback::class.java)
             adapter.setNewData(data)
         }

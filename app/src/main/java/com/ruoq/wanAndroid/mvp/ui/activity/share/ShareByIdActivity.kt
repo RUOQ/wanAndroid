@@ -134,17 +134,17 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
             fragmentList.floatbtn.run {
                 backgroundTintList = SettingUtil.getOneColorStateList(this@ShareByIdActivity)
                 setOnClickListener {
-                    val layoutManager = fragmentList.layoutRv.swiperecyclerview.layoutManager as LinearLayoutManager
+                    val layoutManager = fragmentList.swiperecyclerview.layoutManager as LinearLayoutManager
                     //如果当前recyclerview 最后一个视图位置的索引大于等于40，则迅速返回顶部，否则带有滚动动画效果返回到顶部
                     if (layoutManager.findLastVisibleItemPosition() >= 40) {
-                        fragmentList.layoutRv.swiperecyclerview.scrollToPosition(0)//没有动画迅速返回到顶部(马上)
+                        fragmentList.swiperecyclerview.scrollToPosition(0)//没有动画迅速返回到顶部(马上)
                     } else {
-                        fragmentList.layoutRv.swiperecyclerview.smoothScrollToPosition(0)//有滚动动画返回到顶部(有点慢)
+                        fragmentList.swiperecyclerview.smoothScrollToPosition(0)//有滚动动画返回到顶部(有点慢)
                     }
                 }
             }
             //初始化 swipeRefreshLayout
-            fragmentList.layoutRv.swipeRefreshLayout.run {
+            fragmentList.swipeRefreshLayout.run {
                 setColorSchemeColors(SettingUtil.getColor(this@ShareByIdActivity))
                 setOnRefreshListener {
                     //刷新
@@ -153,7 +153,7 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
                 }
             }
             //初始化recyclyerview
-            footView = RecyclerViewUtils().initRecyclerView(this@ShareByIdActivity, binding.fragmentList.layoutRv.swiperecyclerview, SwipeRecyclerView.LoadMoreListener {
+            footView = RecyclerViewUtils().initRecyclerView(this@ShareByIdActivity, binding.fragmentList.swiperecyclerview, SwipeRecyclerView.LoadMoreListener {
                 //加载更多
                 mPresenter?.getShareData(pageNo,id)
             }).apply {
@@ -161,7 +161,7 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
             }
 
             //监听recyclerview滑动到顶部的时候，需要把向上返回顶部的按钮隐藏
-            fragmentList.layoutRv.swiperecyclerview.run {
+            fragmentList.swiperecyclerview.run {
                 adapter = this@ShareByIdActivity.adapter
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     @SuppressLint("RestrictedApi")
@@ -170,7 +170,7 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
                         if (!canScrollVertically(-1)) {
                             fragmentList.floatbtn.visibility = View.INVISIBLE
                         }
-                        binding.fragmentList.layoutRv.swipeRefreshLayout.isEnabled = recyclerView.childCount == 0 || recyclerView.getChildAt(0).top >= 0
+                        binding.fragmentList.swipeRefreshLayout.isEnabled = recyclerView.childCount == 0 || recyclerView.getChildAt(0).top >= 0
                     }
                 })
             }
@@ -185,7 +185,7 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
         with(binding){
             shareName.text = shareResponse.coinInfo.username
             shareInfo.text = "积分 : ${shareResponse.coinInfo.coinCount}　排名 : ${shareResponse.coinInfo.rank}"
-            fragmentList.layoutRv.swipeRefreshLayout.isRefreshing = false
+            fragmentList.swipeRefreshLayout.isRefreshing = false
             if (pageNo == initPageNo && shareResponse.shareArticles.datas.size == 0) {
                 //如果是第一页，并且没有数据，页面提示空布局
                 loadsir.showCallback(EmptyCallback::class.java)
@@ -202,15 +202,15 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
             pageNo++
             if (shareResponse.shareArticles.pageCount >= pageNo) {
                 //如果总条数大于当前页数时 还有更多数据
-                fragmentList.layoutRv.swiperecyclerview.loadMoreFinish(false, true)
+                fragmentList.swiperecyclerview.loadMoreFinish(false, true)
             } else {
                 //没有更多数据
-                fragmentList.layoutRv.swiperecyclerview.postDelayed({
+                fragmentList.swiperecyclerview.postDelayed({
                     //解释一下为什么这里要延时0.2秒操作。。。
                     //因为上面的adapter.addData(data) 数据刷新了适配器，是需要时间的，还没刷新完，这里就已经执行了没有更多数据
                     //所以在界面上会出现一个小bug，刷新最后一页的时候，没有更多数据啦提示先展示出来了，然后才会加载出请求到的数据
                     //暂时还没有找到好的方法，就用这个处理一下，如果觉得没什么影响的可以去掉这个延时操作，或者有更好的解决方式可以告诉我一下
-                    fragmentList.layoutRv.swiperecyclerview.loadMoreFinish(false, false)
+                    fragmentList.swiperecyclerview.loadMoreFinish(false, false)
                 }, 200)
             }
         }
@@ -218,7 +218,7 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
     }
 
     override fun requestDataFailed(errorMsg: String) {
-        binding.fragmentList.layoutRv.swipeRefreshLayout.isRefreshing = false
+        binding.fragmentList.swipeRefreshLayout.isRefreshing = false
         if (pageNo == initPageNo) {
             //如果页码是 初始页 说明是刷新，界面切换成错误页
             loadsir.setCallBack(ErrorCallback::class.java) { _, view ->
@@ -229,7 +229,7 @@ class ShareByIdActivity : BaseActivity<ShareByIdPresenter>(), ShareByIdContract.
             loadsir.showCallback(ErrorCallback::class.java)
         } else {
             //页码不是0 说明是加载更多时出现的错误，设置recyclerview加载错误，
-            binding.fragmentList.layoutRv.swiperecyclerview.loadMoreError(0, errorMsg)
+            binding.fragmentList.swiperecyclerview.loadMoreError(0, errorMsg)
         }
     }
 
