@@ -26,6 +26,7 @@ import com.ruoq.wanAndroid.di.module.main.tree.NavigationModule
 import com.ruoq.wanAndroid.mvp.contract.main.tree.NavigationContract
 import com.ruoq.wanAndroid.mvp.model.entity.NavigationResponse
 import com.ruoq.wanAndroid.mvp.presenter.main.tree.NavigationPresenter
+import com.ruoq.wanAndroid.mvp.ui.activity.main.web.WebViewActivity
 import com.ruoq.wanAndroid.mvp.ui.adapter.NavigationAdapter
 import com.ruoq.wanAndroid.mvp.ui.base.BaseFragment
 import kotlinx.coroutines.GlobalScope
@@ -124,15 +125,15 @@ class NavigationFragment: BaseFragment<NavigationPresenter>(),NavigationContract
             //设置点击tag的回调
             setTagClickListener(object : NavigationAdapter.TagClickListener {
                 override fun onClick(position: Int, childPosition: Int) {
-                    // position = 点击了第几个item, childPosition 点击的第几个tag
-//                    launchActivity(Intent(_mActivity, WebviewActivity::class.java).apply {
-//                        putExtras(Bundle().also {
-//                            it.putSerializable("data", adapter.data[position].articles[childPosition])
-//                            it.putString("tag", this@NavigationFragment::class.java.simpleName)
-//                            it.putInt("tab", position)
-//                            it.putInt("position", childPosition)
-//                        })
-//                    })
+//                     position = 点击了第几个item, childPosition 点击的第几个tag
+                    launchActivity(Intent(_mActivity, WebViewActivity::class.java).apply {
+                        putExtras(Bundle().also {
+                            it.putSerializable("data", adapter.data[position].articles[childPosition])
+                            it.putString("tag", this@NavigationFragment::class.java.simpleName)
+                            it.putInt("tab", position)
+                            it.putInt("position", childPosition)
+                        })
+                    })
                 }
             })
         }
