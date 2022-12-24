@@ -2,11 +2,10 @@ package com.ruoq.wanAndroid.mvp.presenter.main.publicNumber
 
 import android.app.Application
 import com.google.gson.Gson
-
-import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.FragmentScope
-import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.integration.AppManager
+import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.ruoq.wanAndroid.app.utils.CacheUtil
 import com.ruoq.wanAndroid.mvp.contract.main.publicNumber.PublicContract
@@ -15,10 +14,9 @@ import com.ruoq.wanAndroid.mvp.model.entity.ClassifyResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
-import javax.inject.Inject
-
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay
+import javax.inject.Inject
 
 
 /**

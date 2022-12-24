@@ -8,6 +8,7 @@ import com.jess.arms.di.component.AppComponent
 import com.ruoq.wanAndroid.R
 import com.ruoq.wanAndroid.app.event.SettingChangeEvent
 import com.ruoq.wanAndroid.app.utils.SettingUtil
+import com.ruoq.wanAndroid.app.utils.setUiTheme
 import com.ruoq.wanAndroid.databinding.FragmentMainBinding
 import com.ruoq.wanAndroid.di.component.DaggerMainComponent
 import com.ruoq.wanAndroid.di.module.MainModule
@@ -66,16 +67,16 @@ class MainFragment: BaseFragment<MainPresenter>(),MainContract.View {
             mFragments[first] = HomeFragment.newInstance() //主页
             mFragments[two] = ProjectFragment.newInstance()
             mFragments[three] = TreeFragment.newInstance()
-//            mFragments[four] = PublicFragment.newInstance()
+            mFragments[four] = PublicFragment.newInstance()
 //            mFragments[five] = MeFragment.newInstance()
             loadMultipleRootFragment(
                 R.id.main_frame, first, mFragments[first]
-                , mFragments[two], mFragments[three])
+                , mFragments[two], mFragments[three],mFragments[four])
         }else{
             mFragments[first] = homeFragment
             mFragments[two] = findChildFragment(ProjectFragment::class.java)
             mFragments[three] = findChildFragment(TreeFragment::class.java)
-//            mFragments[four] = findChildFragment(PublicFragment::class.java)
+            mFragments[four] = findChildFragment(PublicFragment::class.java)
 //            mFragments[five] = findChildFragment(MeFragment::class.java)
         }
 
@@ -92,7 +93,7 @@ class MainFragment: BaseFragment<MainPresenter>(),MainContract.View {
                     R.id.menu_main -> showHideFragment(mFragments[first])
                     R.id.menu_project -> showHideFragment(mFragments[two])
                     R.id.menu_system -> showHideFragment(mFragments[three])
-//                    R.id.menu_public -> showHideFragment(mFragments[four])
+                    R.id.menu_public -> showHideFragment(mFragments[four])
 //                    R.id.menu_me -> showHideFragment(mFragments[five])
                 }
                 true
@@ -102,6 +103,6 @@ class MainFragment: BaseFragment<MainPresenter>(),MainContract.View {
 
     @Subscribe
     fun settingEvent(event:SettingChangeEvent){
-//        setU(_mActivity, listOf(main_bnve)
+       setUiTheme(_mActivity, listOf(binding.mainBnve))
     }
 }
