@@ -125,7 +125,7 @@ interface Api {
      */
     @POST("/article/query/{page}/json")
     fun getSearchDataByKey(@Path("page")pageNo: Int,
-                           @Query("K") searchKey:String):
+                           @Query("k") searchKey:String):
             Observable<ApiResponse<ApiPagerResponse<MutableList<ArticleResponse>>>>
 
     /**
