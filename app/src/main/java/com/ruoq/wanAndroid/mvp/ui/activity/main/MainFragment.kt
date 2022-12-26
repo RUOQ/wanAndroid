@@ -68,16 +68,16 @@ class MainFragment: BaseFragment<MainPresenter>(),MainContract.View {
             mFragments[two] = ProjectFragment.newInstance()
             mFragments[three] = TreeFragment.newInstance()
             mFragments[four] = PublicFragment.newInstance()
-//            mFragments[five] = MeFragment.newInstance()
+            mFragments[five] = MeFragment.newInstance()
             loadMultipleRootFragment(
                 R.id.main_frame, first, mFragments[first]
-                , mFragments[two], mFragments[three],mFragments[four])
+                , mFragments[two], mFragments[three],mFragments[four],mFragments[five])
         }else{
             mFragments[first] = homeFragment
             mFragments[two] = findChildFragment(ProjectFragment::class.java)
             mFragments[three] = findChildFragment(TreeFragment::class.java)
             mFragments[four] = findChildFragment(PublicFragment::class.java)
-//            mFragments[five] = findChildFragment(MeFragment::class.java)
+            mFragments[five] = findChildFragment(MeFragment::class.java)
         }
 
         binding.mainBnve.run {
@@ -94,7 +94,7 @@ class MainFragment: BaseFragment<MainPresenter>(),MainContract.View {
                     R.id.menu_project -> showHideFragment(mFragments[two])
                     R.id.menu_system -> showHideFragment(mFragments[three])
                     R.id.menu_public -> showHideFragment(mFragments[four])
-//                    R.id.menu_me -> showHideFragment(mFragments[five])
+                    R.id.menu_me -> showHideFragment(mFragments[five])
                 }
                 true
             }
