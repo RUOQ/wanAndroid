@@ -23,6 +23,7 @@ import com.ruoq.wanAndroid.mvp.model.entity.IntegralResponse
 import com.ruoq.wanAndroid.mvp.model.entity.UserInfoResponse
 import com.ruoq.wanAndroid.mvp.ui.activity.main.web.WebViewActivity
 import com.ruoq.wanAndroid.mvp.ui.activity.start.LoginActivity
+import com.ruoq.wanAndroid.mvp.ui.activity.todo.TodoActivity
 import com.ruoq.wanAndroid.mvp.ui.base.BaseFragment
 import me.hegj.wandroid.mvp.presenter.main.me.MePresenter
 import org.greenrobot.eventbus.Subscribe
@@ -157,7 +158,7 @@ class MeFragment: BaseFragment<MePresenter>(),MeContract.View {
             }
 
             meTodo.setOnClickListener {
-//                startActivityKx(TodoActivity::class.java)
+                startActivityKx(TodoActivity::class.java)
             }
 
             meIntegralLinear.setOnClickListener {
@@ -194,6 +195,7 @@ class MeFragment: BaseFragment<MePresenter>(),MeContract.View {
     /**
      * 获取积分成功回调
      */
+    @SuppressLint("SetTextI18n")
     override fun getIntegralSuccess(integral: IntegralResponse) {
         this.integral = integral
         binding.meSwipe.isRefreshing = false

@@ -68,7 +68,7 @@ class MainActivity : BaseActivity<IPresenter>() {
 
     override fun onBackPressedSupport() {
         if(System.currentTimeMillis() - this.exitTime > 2000L){
-            ShowUtils.showToastCenter(this,"再按一次退出程序")
+            ShowUtils.showToast(this,"再按一次退出程序")
             this.exitTime = System.currentTimeMillis()
             return
         }else{
