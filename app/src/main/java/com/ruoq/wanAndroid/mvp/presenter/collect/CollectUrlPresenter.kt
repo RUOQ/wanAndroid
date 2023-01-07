@@ -79,7 +79,7 @@ constructor(model:CollectUrlContract.Model,rootView:CollectUrlContract.View)
                         mRootView.unCollect(position)
                     } else {
                         //取消收藏失败
-                        mRootView.uncollectFailed(position)
+                        mRootView.unCollectFailed(position)
                         mRootView.showMessage(response.errorMsg)
                     }
                 }
@@ -87,7 +87,7 @@ constructor(model:CollectUrlContract.Model,rootView:CollectUrlContract.View)
                 override fun onError(t: Throwable) {
                     super.onError(t)
                     //取消收藏失败
-                    mRootView.uncollectFailed(position)
+                    mRootView.unCollectFailed(position)
                     mRootView.showMessage(HttpUtils.getErrorText(t))
                 }
             })

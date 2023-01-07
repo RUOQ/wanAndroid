@@ -21,6 +21,7 @@ import com.ruoq.wanAndroid.mvp.contract.main.me.MeContract
 import com.ruoq.wanAndroid.mvp.model.entity.BannerResponse
 import com.ruoq.wanAndroid.mvp.model.entity.IntegralResponse
 import com.ruoq.wanAndroid.mvp.model.entity.UserInfoResponse
+import com.ruoq.wanAndroid.mvp.ui.activity.collect.CollectActivity
 import com.ruoq.wanAndroid.mvp.ui.activity.main.web.WebViewActivity
 import com.ruoq.wanAndroid.mvp.ui.activity.start.LoginActivity
 import com.ruoq.wanAndroid.mvp.ui.activity.todo.TodoActivity
@@ -154,7 +155,7 @@ class MeFragment: BaseFragment<MePresenter>(),MeContract.View {
             }
 
             meCollect.setOnClickListener{
-//                startActivityKx(CollectActivity::class.java)
+                startActivityKx(CollectActivity::class.java)
             }
 
             meTodo.setOnClickListener {
