@@ -23,6 +23,7 @@ import com.ruoq.wanAndroid.mvp.model.entity.IntegralResponse
 import com.ruoq.wanAndroid.mvp.model.entity.UserInfoResponse
 import com.ruoq.wanAndroid.mvp.ui.activity.collect.CollectActivity
 import com.ruoq.wanAndroid.mvp.ui.activity.main.web.WebViewActivity
+import com.ruoq.wanAndroid.mvp.ui.activity.setting.SettingActivity
 import com.ruoq.wanAndroid.mvp.ui.activity.start.LoginActivity
 import com.ruoq.wanAndroid.mvp.ui.activity.todo.TodoActivity
 import com.ruoq.wanAndroid.mvp.ui.base.BaseFragment
@@ -184,10 +185,11 @@ class MeFragment: BaseFragment<MePresenter>(),MeContract.View {
 
             meJoin.setOnClickListener {
 //                joinQQGroup("")
+
             }
 
             meSetting.setOnClickListener {
-//                startActivityKx(SettingActivity::class.java)
+                startActivityKx(SettingActivity::class.java)
             }
 
         }

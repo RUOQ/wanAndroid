@@ -178,7 +178,6 @@ class HomeFragment : BaseFragment<HomePresenter>(),HomeContract.View{
                 //刷新
                 pageNo = initPageNo
                 mPresenter?.getAriList(pageNo)
-                Log.e("qin","refreshing...")
             }
         }
 
